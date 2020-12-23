@@ -1,0 +1,252 @@
+@font-face {
+  font-family: 'Poppins';
+  src:  local('Poppins'),url('../fonts/Poppins-Regular.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src:  url('../fonts/Montserrat-Regular.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+  width: 86%;
+  max-width: none;
+  margin-left: 14%;}
+
+.heading {
+  margin: 30px 0;
+}
+
+hr.black {
+    width: 70%;
+    border-top: 3px solid #000;
+    border-radius: 1px;
+    margin: 0 auto;
+}
+
+#sticky-sidebar {
+  background: #0e0c28;
+  height: 100%;
+  padding: 20px 0;
+  width: 14%;
+  font-family: 'Poppins', sans-serif;
+}
+
+.nav-link {
+  color: #ffff;
+  text-align: center;
+  font-weight: bold;
+}
+
+hr {
+  width: 30px;
+  border-top: 2px solid #fff;
+  border-radius: 1px;
+  margin: 0 auto;
+}
+
+#main-content {
+  margin-bottom: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.content-panel {
+  margin: 20px;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+h2 {
+  padding: 10px;
+  color: #000;
+  font-size: 30px;
+}
+
+.contact-container input {
+  border: none;
+  outline: none;
+  margin: 0 auto;
+}
+
+::placeholder {
+  color: #000;
+}
+
+#name {
+  display: block;
+  width: 65%;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+}
+
+#email {
+  display: block;
+  color: #000;
+  width: 65%;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px;
+  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+}
+
+#subject {
+  display: block;
+  color: #000;
+  width: 65%;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px;
+  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+}
+
+#Comment {
+  display: block;
+  width: 65%;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+}
+
+#button {
+  border-radius: 5px;
+  width: 150px;
+  padding: 10px;
+  margin: 0 10px 10px 10px;
+  text-align: center;
+}
+
+.library-search-form {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.submit-btn {
+  width: auto;
+  margin-top: 36px !important;
+}
+
+.header {
+  display: flex;
+  padding: 20px;
+}
+
+.library .header span {
+  margin: 5px 15px;
+}
+
+.feeds-header span {
+  margin: 5px 60px;
+}
+
+.add-book {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.feeds {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.feeds h3 {
+  font-weight: bold;
+  padding: 20px 0;
+}
+
+.feeds .card {
+  width: 30%;
+  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.2), 0 0px 0px 0 rgba(0, 0, 0, 0);
+  margin: 20px;
+}
+
+.card-text {
+  line-height: 25px;
+}
+
+.card-img {
+  height: 270px;
+  background: #e0e0e0;
+  background-size: 100%;
+  background-position: center center;
+}
+
+.fc-view-container {
+  margin: 30px 0px;
+}
+
+#feed-menu {
+  background: blue;
+  width: 14%;
+  position: fixed;
+  height: 100%;
+  background: #0e0c28;
+}
+
+ /* Position and style the close button (top right corner) */
+ #feed-menu .closebtn {
+   position: absolute;
+   top: 0;
+   font-size: 15px;
+   text-decoration: none;
+   margin: 10px;
+ }
+
+ .menu-items {
+   margin-top: 80px;
+ }
+
+.dropdown-menu {
+  background: none;
+}
+
+.dropdown-container {
+  margin-left: 40px;
+  display: none;
+}
+
+.dropdown-item {
+  color: #ffff;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  text-decoration: underline;
+  background: none;
+  color: #7b8a8b;
+}
+
+#feed-menu .nav-link {
+  text-align: left;
+}
+
+#feed-menu .nav-item {
+  margin: 0;
+}
+
+#feed-menu .add-feed-category {
+  margin: 40px 30px;
+  border: 2px solid #fff;
+  width: 50%;
+  height: 40px;
+}
+
+#feed-menu .add-feed-category p {
+  color: #ffff;
+  text-align: left;
+  padding: 7px 11px;
+}

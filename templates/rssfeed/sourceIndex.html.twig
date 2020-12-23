@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Your Feed Sources{% endblock %}
+
+{% block body %}
+
+    <script>
+      document.getElementById("mySidenav").style.width = "250px";
+    </script>
+
+    <div class="feeds-header header">
+        <h3>Your Feed Sources</h3>
+        <span><a href="/feeds/add" class="btn btn-primary add-book">+ Add new Feed</a></span>
+    </div>
+
+    {% if sources %}
+
+    <table id="sources" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Url</th>
+                <th>Category</th>
+                <th>Edit Entry</th>
+                <th>Delete Entry</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for source in sources %}
+            <tr>
+                <td>{{source.title}}</td>
+                <td>{{source.url}}</td>
+                {% for sourceCategory in sourceCategories %}
+                  {% if source.category.id == sourceCategory.id %}
+                    <td>{{ sourceCategory.name }}</td>
+                  {% endif %}
+                {% endfor %}
+                <td><a class="btn btn-primary" href="/feeds/edit/{{source.id}}">Edit</a></td>
+                <td><a class="btn btn-danger delete-entry" href="#" data-id="{{source.id}}">X</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% else %}
+
+<p>Currently no feeds were subscribed to</p>
+
+{% endif %}
+
+{% endblock %}

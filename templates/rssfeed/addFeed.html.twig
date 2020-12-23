@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% form_theme feedSourceForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Add new Feed{% endblock %}
+
+{% block body %}
+    <h3>Add a new Feed</h3>
+    {{ form_start(feedSourceForm) }}
+
+    <div class="col-sm-2 my-1">
+        {{ form_label(feedSourceForm.title) }}
+        {{ form_widget(feedSourceForm.title) }}
+    </div>
+
+    <div class="col-sm-4 my-1">
+        {{ form_label(feedSourceForm.category) }}
+        {{ form_widget(feedSourceForm.category) }}
+    </div>
+
+    <div class="col-sm-4 my-1">
+        {{ form_label(feedSourceForm.url) }}
+        {{ form_widget(feedSourceForm.url) }}
+    </div>
+
+    <div class="col-auto my-1 submit-btn">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+{{ form_end(feedSourceForm) }}
+
+{% endblock %}

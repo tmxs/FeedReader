@@ -1,0 +1,32 @@
+<div id="feed-menu">
+
+  <a href="javascript:void(-1)" class="closebtn" onclick="closeNav()">< Go Back</a>
+  <div class="menu-items">
+
+      <li class="nav-item">
+        <a class="nav-link" href="#">All Feeds</a>
+      </li>
+
+    {% for feedSource in feedSources %}
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#">
+            {{ feedSource['categoryName'] }}
+          </a>
+
+          <div class="dropdown-container">
+            {% for feedSourceTitle in feedSource['title'] %}
+              <a class="dropdown-item" href="#">{{ feedSourceTitle }}</a>
+            {% endfor %}
+          </div>
+        </li>
+
+      {% endfor %}
+
+      <div class="add-feed-category">
+        <p><a href="#">Add Category</a></p>
+      </div>
+
+  </div>
+
+</div>
