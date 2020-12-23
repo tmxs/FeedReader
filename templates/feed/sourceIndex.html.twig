@@ -1,0 +1,75 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Your Feed Sources{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="feeds-header header">
+            <h3>Your Categories</h3>
+            <span><a href="/category/add" class="btn btn-primary add-book">+ Add new Category</a></span>
+        </div>
+
+        {% if categories %}
+
+            <table id="categories" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Edit Entry</th>
+                    <th>Delete Entry</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td><a class="btn btn-primary" href="/category/edit/{{ category.id }}">Edit</a></td>
+                        <td><a class="btn btn-danger delete-entry" href="#" data-id="{{ category.id }}">X</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
+
+        <div class="feeds-header header">
+            <h3>Feeds</h3>
+            <span><a href="/feeds/add" class="btn btn-primary add-book">+ Add new Feed</a></span>
+        </div>
+
+        {% if feeds %}
+
+            <table id="feeds" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Url</th>
+                    <th>Category</th>
+                    <th>Edit Entry</th>
+                    <th>Delete Entry</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for feed in feeds %}
+                    <tr>
+                        <td>{{ feed.title }}</td>
+                        <td>{{ feed.url }}</td>
+                        {% for category in categories %}
+                            {% if feed.category.id == category.id %}
+                                <td>{{ category.name }}</td>
+                            {% endif %}
+                        {% endfor %}
+                        <td><a class="btn btn-primary" href="/feeds/edit/{{ feed.id }}">Edit</a></td>
+                        <td><a class="btn btn-danger delete-entry" href="#" data-id="{{ feed.id }}">X</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <h4>Currently you were subscribed to {{ feeds|length }} Feeds.</h4>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -2,9 +2,8 @@
 
 namespace App\Service;
 
-use App\Feed\Post;
-use App\Entity\Feed;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Post;
+use App\Repository\FeedRepository;
 
 /**
  * Class: FeedReaderService
@@ -15,19 +14,19 @@ class FeedReaderService
     public $posts = array();
     private $feedData;
 
-    //TODO: Daten in den PHP-Cache schreiben und nur nach neuen suchen
-
     /**
      * getFeedData
      *
-     * @param EntityManagerInterface $entityManager
+     * @param FeedRepository $feeds
+     *
+     * @return array
      */
-    public function getFeedData(EntityManagerInterface $entityManager)
+    public function getFeedData(FeedRepository $feeds)
     {
         //TODO: Detect type by html header
-        $feedSources = $entityManager->createQuery('SELECT feed.url FROM App\Entity\Feed feed')->getResult();
-        foreach ($feedSources as $feed) {
-            $this->feedData = simplexml_load_file($feed['url']);
+        $sources = $feeds->findAll();
+        foreach ($sources as $feed) {
+            $this->feedData = simplexml_load_file($feed->getUrl());
             if ($this->feedData->getName()  == 'feed') {
                 $this->getAtomData();
             } elseif ($this->feedData->getName()  == 'rss') {

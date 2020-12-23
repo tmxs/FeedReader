@@ -3,36 +3,41 @@
 namespace App\Controller;
 
 use App\Entity\Feed;
-use App\Entity\Post;
 use App\Entity\FeedCategory;
-use App\Service\FeedReaderService;
+use App\Form\CategoryFormType;
 use App\Form\FeedSourceFormType;
-
+use App\Service\FeedReaderService;
+use App\Repository\FeedRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\FeedCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\ORM\EntityManagerInterface;
 
 class FeedController extends AbstractController
 {
 
     /**
-     * @Route("/", name="rssFeedOverview", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
+     *
+     * @param FeedRepository $feedRepository
+     *
+     * @return Response
      */
-    public function index(EntityManagerInterface $entityManager)
+    public function index(FeedRepository $feedRepository)
     {
         $feedReaderService = new FeedReaderService();
-        $feeds = $feedReaderService->getFeedData($entityManager);
+        $feeds = $feedReaderService->getFeedData($feedRepository);
 
-        return $this->render('rssfeed/feedIndex.html.twig', [
-            'feeds'  => $feeds
+        return $this->render('feed/feedIndex.html.twig', [
+            'feeds' => $feeds
         ]);
     }
 
     /**
-     * @Route("/feeds/add", name="addFeedSource")
+     * @Route("/feeds/add", name="add_feed_source")
      *
      */
     public function addFeedSource(EntityManagerInterface $entityManager, Request $request)
@@ -58,42 +63,37 @@ class FeedController extends AbstractController
             }
         }
 
-        return $this->render('rssfeed/addFeed.html.twig', [
+        return $this->render('feed/addFeed.html.twig', [
             'feedSourceForm' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/feeds/sources", name="feedSourceIndex", methods={"GET"})
+     * @Route("/feeds", name="source_index", methods={"GET"})
      *
+     * @param FeedCategoryRepository $categoryRepository
+     * @param FeedRepository $feeds
+     *
+     * @return Response
      */
-    public function feedSourceIndex(EntityManagerInterface $entityManager)
+    public function feedSourceIndex(FeedCategoryRepository $categoryRepository, FeedRepository $feeds)
     {
-      $sources = $entityManager->getRepository(Feed::class)->findAll();
-      $sourceCategories = $entityManager->getRepository(FeedCategory::class)->findall();
-      $feedSources = array();
-
-      for ($i=0; $i < sizeof($sourceCategories); $i++) {
-          $feedSources[]['categoryName'] = $sourceCategories[$i]->getName();
-          foreach ($sources AS $source) {
-            if ($source->getCategory()->getId() == $sourceCategories[$i]->getId()) {
-              $feedSources[$i]['title'][] = $source->getTitle();
-            }
-          }
-      }
-
-      return $this->render('rssfeed/sourceIndex.html.twig', [
-        'sources' => $sources,
-        'sourceCategories' => $sourceCategories,
-        'feedSources' => $feedSources,
-      ]);
+        return $this->render('feed/sourceIndex.html.twig', [
+            'feeds' => $feeds->findAll(),
+            'categories'  => $categoryRepository->findAll(),
+        ]);
     }
 
     /**
-     * @Route("/feeds/edit/{id}", name="editFeedSource")
+     * @Route("/feeds/edit/{id}", name="edit_feed")
      *
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @param $id
+     *
+     * @return RedirectResponse|Response
      */
-    public function editFeedSource(EntityManagerInterface $entityManager, Request $request, $id)
+    public function editFeed(EntityManagerInterface $entityManager, Request $request, $id)
     {
         $feedSource = $this->getDoctrine()->getRepository(Feed::class)->find($id);
         $sourceCategories = $entityManager->getRepository(FeedCategory::class)->findall();
@@ -112,7 +112,7 @@ class FeedController extends AbstractController
             return $this->redirectToRoute('feedSourceIndex');
         }
 
-        return $this->render('rssfeed/addFeed.html.twig', [
+        return $this->render('feed/addFeed.html.twig', [
             'feedSourceForm' => $form->createView()
         ]);
     }
@@ -120,7 +120,7 @@ class FeedController extends AbstractController
     /**
      * @Route("/feeds/delete/{id}")
      */
-    public function deleteFeedSource(Request $request, $id)
+    public function deleteFeed(Request $request, $id)
     {
         $feedSource = $this->getDoctrine()->getRepository(Feed::class)->find($id);
 
@@ -141,7 +141,7 @@ class FeedController extends AbstractController
      *
      * @return bool
      */
-    public function checkIfLinkExists($url) : bool
+    public function checkIfLinkExists($url): bool
     {
         $curlResource = curl_init();
         $options = array(
@@ -153,8 +153,10 @@ class FeedController extends AbstractController
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HEADER, true,
-            CURLOPT_NOBODY, true
+            CURLOPT_HEADER,
+            true,
+            CURLOPT_NOBODY,
+            true
         );
 
         curl_setopt_array($curlResource, $options);
@@ -169,6 +171,6 @@ class FeedController extends AbstractController
 
     public function importFeedSources()
     {
-      // code...
+        // code...
     }
 }
