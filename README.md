@@ -17,7 +17,7 @@ Web Application to read and manage your RSS/Atom-Feeds.
 
 ## Screenshots
 
-### Notes Overview:
+### Feed Overview:
 
 ![feed-overview](https://raw.githubusercontent.com/tmxs/FeedReader/master/public/assets/imgs/feedreader.png)
 
