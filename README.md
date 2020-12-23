@@ -19,11 +19,11 @@ Web Application to read and manage your RSS/Atom-Feeds.
 
 ### Notes Overview:
 
-![feed-overview](https://raw.githubusercontent.com/tmxs/FeedReader/master/assets/imgs/feedreader.png)
+![feed-overview](https://raw.githubusercontent.com/tmxs/FeedReader/master/public/assets/imgs/feedreader.png)
 
 ### Manage Feeds:
 
-![manage-feeds](https://raw.githubusercontent.com/tmxs/FeedReader/master/assets/imgs/managefeeds.png)
+![manage-feeds](https://raw.githubusercontent.com/tmxs/FeedReader/master/public/assets/imgs/managefeeds.png)
 
 ## Installation
 
