@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Feed;
-use App\Entity\FeedCategory;
-use App\Form\CategoryFormType;
 use App\Form\FeedSourceFormType;
 use App\Service\FeedReaderService;
 use App\Repository\FeedRepository;
@@ -39,8 +37,11 @@ class FeedController extends AbstractController
     /**
      * @Route("/feeds/add", name="add_feed_source")
      *
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
-    public function addFeedSource(EntityManagerInterface $entityManager, Request $request)
+    public function addFeedSource(Request $request)
     {
         $form = $this->createForm(FeedSourceFormType::class);
         $form->handleRequest($request);
@@ -48,16 +49,20 @@ class FeedController extends AbstractController
             $data = $form->getData();
 
             if ($this->checkIfLinkExists($data['url'])) {
+
+                // TODO: Prüfe ob Feed/Kategorie nicht schon existiert
+                // TODO: In Übersicht darstellen ob Daten gezogen werden können
+
                 $feed = new Feed();
                 $feed->setTitle($data['title']);
-                //TODO: erst URL speichern, wenn curl 200 zurück gibt und das format xml ist
                 $feed->setUrl($data['url']);
                 $feed->setCategory($data['category']);
 
+                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($feed);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('feedSourceIndex');
+                return $this->redirectToRoute('source_index');
             } else {
                 echo "URL is invalid";
             }
@@ -80,33 +85,29 @@ class FeedController extends AbstractController
     {
         return $this->render('feed/sourceIndex.html.twig', [
             'feeds' => $feeds->findAll(),
-            'categories'  => $categoryRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
     /**
      * @Route("/feeds/edit/{id}", name="edit_feed")
      *
-     * @param EntityManagerInterface $entityManager
+     * @param FeedRepository $feedRepository
+     * @param FeedCategoryRepository $categoryRepository
      * @param Request $request
      * @param $id
      *
      * @return RedirectResponse|Response
      */
-    public function editFeed(EntityManagerInterface $entityManager, Request $request, $id)
-    {
-        $feedSource = $this->getDoctrine()->getRepository(Feed::class)->find($id);
-        $sourceCategories = $entityManager->getRepository(FeedCategory::class)->findall();
+    public function editFeed(FeedRepository $feedRepository, Request $request, $id) {
+        $feed = $feedRepository->findOneBy(['id' => $id]);
 
-        $form = $this->createForm(FeedSourceFormType::class, $feedSource);
+        $form = $this->createForm(FeedSourceFormType::class, $feed);
         $form->handleRequest($request);
-        // $data = $form->getData();
-        // var_dump($data);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            // $feedSource->setCategory($data->category);
-            // $entityManager->persist($feedSource);
+            $entityManager->persist($feed);
             $entityManager->flush();
 
             return $this->redirectToRoute('feedSourceIndex');
@@ -119,8 +120,11 @@ class FeedController extends AbstractController
 
     /**
      * @Route("/feeds/delete/{id}")
+     * @param $id
+     *
+     * @return void
      */
-    public function deleteFeed(Request $request, $id)
+    public function deleteFeed($id) :void
     {
         $feedSource = $this->getDoctrine()->getRepository(Feed::class)->find($id);
 

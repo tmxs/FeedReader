@@ -7,7 +7,7 @@
     <div class="container">
         <div class="feeds-header header">
             <h3>Your Categories</h3>
-            <span><a href="/category/add" class="btn btn-primary add-book">+ Add new Category</a></span>
+            <span><a href="{{ path('add_category') }}" class="btn btn-primary add-book">+ Add new Category</a></span>
         </div>
 
         {% if categories %}
@@ -24,7 +24,7 @@
                 {% for category in categories %}
                     <tr>
                         <td>{{ category.name }}</td>
-                        <td><a class="btn btn-primary" href="/category/edit/{{ category.id }}">Edit</a></td>
+                        <td><a class="btn btn-primary" href="{{ path('edit_category', {id: category.id}) }}">Edit</a></td>
                         <td><a class="btn btn-danger delete-entry" href="#" data-id="{{ category.id }}">X</a></td>
                     </tr>
                 {% endfor %}
@@ -35,7 +35,7 @@
 
         <div class="feeds-header header">
             <h3>Feeds</h3>
-            <span><a href="/feeds/add" class="btn btn-primary add-book">+ Add new Feed</a></span>
+            <span><a href="{{ path('add_feed_source') }}" class="btn btn-primary add-book">+ Add new Feed</a></span>
         </div>
 
         {% if feeds %}
@@ -60,7 +60,7 @@
                                 <td>{{ category.name }}</td>
                             {% endif %}
                         {% endfor %}
-                        <td><a class="btn btn-primary" href="/feeds/edit/{{ feed.id }}">Edit</a></td>
+                        <td><a class="btn btn-primary" href="{{ path('edit_feed', {id: feed.id}) }}">Edit</a></td>
                         <td><a class="btn btn-danger delete-entry" href="#" data-id="{{ feed.id }}">X</a></td>
                     </tr>
                 {% endfor %}

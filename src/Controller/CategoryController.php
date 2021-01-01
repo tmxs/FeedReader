@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/category/add", name="addCategory")
+     * @Route("/category/add", name="add_category")
      *
      * @param Request $request
      * @param EntityManagerInterface $entityManager
@@ -48,7 +48,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/category/edit/{id}", name="editCategory")
+     * @Route("/category/edit/{id}", name="edit_category")
      *
      * @param FeedCategoryRepository $category
      * @param Request $request
